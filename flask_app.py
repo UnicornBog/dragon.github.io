@@ -1,4 +1,4 @@
-@app.route("/")
+@app.route("/home")
 def home():
     return render_template("select.html")
     '''
@@ -24,7 +24,8 @@ def choose():
     <button type="submit" name="egg" value="Storm Egg">torm Egg</button>
     <button type="submit" name="egg" value="Shadow Egg">Shadow Egg</button>
 </form>
-
 </body>
     '''
+@app.route("/dragon")
+def dragon
 
