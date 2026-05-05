@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Your Dragon</h2>
+
+<div class="box">
+    <p>Type: {{ dragon.type }}</p>
+    <p>Level: {{ dragon.level }}</p>
+    <p>Hunger: {{ dragon.hunger }}</p>
+    <p>Happiness: {{ dragon.happiness }}</p>
+</div>
+
+<div class="box">
+<form method="POST">
+    <button name="action" value="feed">🍖 Feed</button>
+    <button name="action" value="train">⚔️ Train</button>
+    <button name="action" value="play">🎾 Play</button>
+</form>
+</div>
+
+{% endblock %}

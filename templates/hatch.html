@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Dragon Hatching</h2>
+
+{% if not hatched %}
+
+<div class="box">
+    <p>{{ egg }} is shaking...</p>
+
+    <form action="/hatch" method="POST">
+        <input type="hidden" name="egg" value="{{ egg }}">
+        <button type="submit">🥚 Hatch Egg</button>
+    </form>
+</div>
+
+{% else %}
+
+<div class="box">
+    <h2>You got a {{ dragon }} Dragon!</h2>
+    <a href="/dragon">
+        <button>Start Raising</button>
+    </a>
+</div>
+
+{% endif %}
+
+{% endblock %}
