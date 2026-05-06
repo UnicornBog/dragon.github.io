@@ -2,21 +2,24 @@
 
 {% block content %}
 
-<h2>Your Dragon</h2>
+<h2>🐉 Your Dragon</h2>
 
 <div class="box">
-    <p>Type: {{ dragon.type }}</p>
+    <p>Hunger: {{ dragon.hunger }}/10</p>
+    <p>Happiness: {{ dragon.happiness }}/10</p>
+    <p>Energy: {{ dragon.energy }}/10</p>
     <p>Level: {{ dragon.level }}</p>
-    <p>Hunger: {{ dragon.hunger }}</p>
-    <p>Happiness: {{ dragon.happiness }}</p>
 </div>
 
-<div class="box">
 <form method="POST">
     <button name="action" value="feed">🍖 Feed</button>
     <button name="action" value="train">⚔️ Train</button>
     <button name="action" value="play">🎾 Play</button>
+    <button name="action" value="rest">😴 Rest</button>
 </form>
-</div>
+
+{% if message %}
+<p>{{ message }}</p>
+{% endif %}
 
 {% endblock %}
