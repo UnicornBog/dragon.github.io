@@ -20,11 +20,23 @@
             border: 2px solid white;
             display: inline-block;
         }
+        .progress-container {
+            width: 300px;
+            border: 2px solid white;
+            margin: 10px auto;
+            background-color: #333;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background: linear-gradient(to right, lime, green);
+            transition: width 0.3s ease;
+        }
     </style>
 </head>
 <body>
 
-<h1>🐉 Dragon Evolution Game</h1>
+<h1>Dragon Evolution Game</h1>
 
 {% block content %}{% endblock %}
 
