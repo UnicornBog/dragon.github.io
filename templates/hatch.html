@@ -2,27 +2,34 @@
 
 {% block content %}
 
-<h2>Dragon Hatching</h2>
+<h2>Hatching Your Egg</h2>
 
 {% if not hatched %}
 
-<div class="box">
-    <p>{{ egg }} is shaking...</p>
-
-    <form action="/hatch" method="POST">
-        <input type="hidden" name="egg" value="{{ egg }}">
-        <button type="submit">🥚 Hatch Egg</button>
-    </form>
+<div style="width:300px; border:2px solid white;">
+    <div style="
+        width: {{ (dragon.hatch_progress / 5) * 100 }}%;
+        height:20px;
+        background: lime;">
+    </div>
 </div>
+
+<p>{{ dragon.hatch_progress }}/5</p>
+
+<form method="POST" action="/hatch">
+    <input type="hidden" name="egg" value="{{ egg }}">
+
+    <button name="method" value="wait">Wait</button>
+    <button name="method" value="magic">Magic</button>
+</form>
 
 {% else %}
 
-<div class="box">
-    <h2>You got a {{ dragon }} Dragon!</h2>
-    <a href="/dragon">
-        <button>Start Raising</button>
-    </a>
-</div>
+<h2>Your {{ dragon.type }} Dragon has hatched!</h2>
+
+<a href="/dragon">
+    <button>Start Raising</button>
+</a>
 
 {% endif %}
 
