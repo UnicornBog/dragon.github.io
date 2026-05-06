@@ -18,6 +18,37 @@
     <button name="action" value="rest">😴 Rest</button>
 </form>
 
+<div class="box_2">
+    <h3>🐉 Your Dragon Wants:</h3>
+
+    {% if dragon.request == "feed" %}
+        <p>🍖 I’m hungry!</p>
+    {% elif dragon.request == "train" %}
+        <p>⚔️ I want to get stronger!</p>
+    {% elif dragon.request == "play" %}
+        <p>🎾 I want to play!</p>
+    {% elif dragon.request == "rest" %}
+        <p>😴 I feel tired...</p>
+    {% endif %}
+</div>
+
+<div class="box_3">
+    <h3>🐉 Mood</h3>
+
+    {% if dragon.mood == "happy" %}
+        <p>😊 Your dragon is happy!</p>
+
+    {% elif dragon.mood == "angry" %}
+        <p>😠 Your dragon is angry!</p>
+
+    {% elif dragon.mood == "sleepy" %}
+        <p>😴 Your dragon is sleepy...</p>
+
+    {% else %}
+        <p>😐 Your dragon is neutral.</p>
+    {% endif %}
+</div>
+
 {% if message %}
 <p>{{ message }}</p>
 {% endif %}
