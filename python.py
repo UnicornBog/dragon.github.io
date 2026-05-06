@@ -5,11 +5,12 @@ app = Flask(__name__)
 dragon = {
     "egg": None,
     "type": "Unknown",
-    "stage": "Baby",
     "level": 1,
     "hunger": 5,
     "happiness": 5,
-    "energy": 5
+    "energy": 5,
+    "request": "feed",
+    "mood": "neutral"
 }
 
 @app.route("/")
@@ -69,37 +70,59 @@ def dragon_page():
 
     message = ""
 
+    if "request" not in dragon:
+        dragon["request"] = generate_request()
+
     if request.method == "POST":
         action = request.form.get("action")
 
+        if action == dragon["request"]:
+            message = "🐉 Your dragon is happy you listened!"
+            dragon["happiness"] += 2
+            dragon["level"] += 1
+        else:
+            message = "🐉 Your dragon is a bit disappointed..."
+
         if action == "feed":
             dragon["hunger"] += 2
-            message = "Fed!"
 
         elif action == "train":
             dragon["level"] += 1
             dragon["energy"] -= 1
-            message = "Trained!"
 
         elif action == "play":
             dragon["happiness"] += 2
             dragon["energy"] -= 1
-            message = "Played!"
 
         elif action == "rest":
             dragon["energy"] += 2
-            message = "Rested!"
+
+        dragon["request"] = generate_request()
 
     dragon["hunger"] = max(0, min(dragon["hunger"], 10))
     dragon["happiness"] = max(0, min(dragon["happiness"], 10))
     dragon["energy"] = max(0, min(dragon["energy"], 10))
 
-    if dragon["level"] >= 5:
-        dragon["stage"] = "Adult"
-    elif dragon["level"] >= 2:
-        dragon["stage"] = "Young"
-    else:
-        dragon["stage"] = "Baby"
+    update_mood()
 
     return render_template("dragon.html", dragon=dragon, message=message)
+
+def update_mood():
+    if dragon["energy"] <= 2:
+        dragon["mood"] = "sleepy"
+    elif dragon["happiness"] >= 7 and dragon["hunger"] >= 4:
+        dragon["mood"] = "happy"
+    elif dragon["hunger"] <= 3 or dragon["happiness"] <= 2:
+        dragon["mood"] = "angry"
+    else:
+        dragon["mood"] = "neutral"
+
+def generate_request():
+    return random.choice([
+        "feed",
+        "feed",
+        "play",
+        "rest",
+        "train"
+    ])
 
