@@ -49,8 +49,41 @@
     {% endif %}
 </div>
 
+ <div class="box_4">
+    <h3>🐉 Dragon Stage</h3>
+
+    <p>{{ dragon.stage }}</p>
+
+    {% if dragon.stage == "Hatchling" %}
+        <p>🥚 Small and curious.</p>
+
+    {% elif dragon.stage == "Young Dragon" %}
+        <p>🐲 Growing stronger!</p>
+
+    {% elif dragon.stage == "Adult Dragon" %}
+        <p>🔥 Powerful and fierce!</p>
+
+    {% elif dragon.stage == "Elder Dragon" %}
+        <p>👑 Ancient and legendary.</p>
+    {% endif %}
+</div>
+
+{% if dragon.mood == "happy" %}
+    <p>😊 Your dragon looks excited!</p>
+
+{% elif dragon.mood == "angry" %}
+    <p>😠 Your dragon growls at you!</p>
+
+{% elif dragon.mood == "sleepy" %}
+    <p>😴 Your dragon can barely stay awake.</p>
+
+{% else %}
+    <p>😐 Your dragon watches quietly.</p>
+{% endif %}
+
 {% if message %}
 <p>{{ message }}</p>
 {% endif %}
 
 {% endblock %}
+
