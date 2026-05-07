@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from flask import redirect, url_for
 import random
 app = Flask(__name__)
 
@@ -6,12 +7,40 @@ dragon = {
     "egg": None,
     "type": "Unknown",
     "level": 1,
+    "stage": "Hatchling",
     "hunger": 5,
     "happiness": 5,
     "energy": 5,
     "request": "feed",
     "mood": "neutral"
 }
+
+def reset_dragon():
+    dragon["egg"] = None
+    dragon["type"] = "Unknown"
+    dragon["level"] = 1
+    dragon["stage"] = "Hatchling"
+    dragon["hunger"] = 5
+    dragon["happiness"] = 5
+    dragon["energy"] = 5
+    dragon["request"] = "feed"
+    dragon["mood"] = "neutral"
+    dragon["hatch_progress"] = 0
+
+def update_stage():
+
+    if dragon["level"] >= 50:
+        dragon["stage"] = "Elder Dragon"
+
+    elif dragon["level"] >= 25:
+        dragon["stage"] = "Adult Dragon"
+
+    elif dragon["level"] >= 10:
+        dragon["stage"] = "Young Dragon"
+
+    else:
+        dragon["stage"] = "Hatchling"
+
 
 @app.route("/")
 def choose():
@@ -79,9 +108,12 @@ def dragon_page():
         if action == dragon["request"]:
             message = "🐉 Your dragon is happy you listened!"
             dragon["happiness"] += 2
-            dragon["level"] += 1
+            dragon["mood"] = "happy"
+
         else:
-            message = "🐉 Your dragon is a bit disappointed..."
+            message = "🐉 Your dragon is upset you ignored it!"
+            dragon["happiness"] -= 2
+            dragon["mood"] = "angry"
 
         if action == "feed":
             dragon["hunger"] += 2
@@ -99,21 +131,29 @@ def dragon_page():
 
         dragon["request"] = generate_request()
 
-    dragon["hunger"] = max(0, min(dragon["hunger"], 10))
-    dragon["happiness"] = max(0, min(dragon["happiness"], 10))
-    dragon["energy"] = max(0, min(dragon["energy"], 10))
+        dragon["hunger"] = max(0, min(dragon["hunger"], 10))
+        dragon["happiness"] = max(0, min(dragon["happiness"], 10))
+        dragon["energy"] = max(0, min(dragon["energy"], 10))
 
-    update_mood()
+        update_mood()
+        update_stage()
+        if dragon["stage"] == "Elder Dragon":
+            return redirect(url_for("release"))
+
 
     return render_template("dragon.html", dragon=dragon, message=message)
 
 def update_mood():
+
     if dragon["energy"] <= 2:
         dragon["mood"] = "sleepy"
-    elif dragon["happiness"] >= 7 and dragon["hunger"] >= 4:
-        dragon["mood"] = "happy"
-    elif dragon["hunger"] <= 3 or dragon["happiness"] <= 2:
+
+    elif dragon["happiness"] <= 3:
         dragon["mood"] = "angry"
+
+    elif dragon["happiness"] >= 7:
+        dragon["mood"] = "happy"
+
     else:
         dragon["mood"] = "neutral"
 
@@ -125,4 +165,13 @@ def generate_request():
         "rest",
         "train"
     ])
+
+@app.route("/release")
+def release():
+    released_type = dragon["type"]
+
+    reset_dragon()
+
+    return render_template("release.html", dragon_type=released_type)
+
 
