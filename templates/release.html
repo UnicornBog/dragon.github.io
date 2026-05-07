@@ -1,1 +1,20 @@
+{% extends "base.html" %}
 
+{% block content %}
+
+<div class="box">
+    <h2>🐉 Your Dragon Has Ascended</h2>
+
+    <p>
+        Your {{ dragon_type }} Dragon spread its wings
+        and returned to the skies...
+    </p>
+
+    <p>A new adventure awaits.</p>
+
+    <a href="/">
+        <button>Choose a New Egg</button>
+    </a>
+</div>
+
+{% endblock %}
